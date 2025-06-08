@@ -28,5 +28,18 @@
 // For more convenient math notation.
 #import "@preview/physica:0.9.5" as ps: *
 
+// Allows inserting pdf files into the document.
+#import "@preview/muchpdf:0.1.0": muchpdf
+
+// Outline.
+#import "@preview/outrageous:0.4.0"
+
+
+#let heading-size = 1.2em
+#let heading-block-ypad = 1.5em
+
+#let heading-1-suplement-size = 1.15em
+#let heading-1-size = 1.55em
+#let heading-1-block-ypad = 2.5em
 
 

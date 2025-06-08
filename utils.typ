@@ -96,28 +96,29 @@
 // Only one call can have the main set to true.
 //
 // Source: https://forum.typst.app/t/how-to-share-bibliography-in-a-multi-file-setup/1605/8
-#let load-bib(main: false) = {
+#let load-bib(
+  main: false, 
+  // By default expects bib.yml to exist.
+  bib-sources: ("bib.yml"),
+  bib-params: (
+    style: "ieee", 
+  ),
+) = context {
   counter("bibs").step()
   
-  let bib-sources = ("bib.yml")
-
-  let bib-params = (
-    style: "./assets/iso690-numeric-brackets-cs.csl",
-  )
-
   context if main {
     [ 
       #bibliography(
         bib-sources, 
         ..bib-params,
-        title: [#text(size: 1.5em)[#linguify("bibliography")]],
+        title: none,
         full: true,
-      ) <main-bib> 
+      )
     ]
   } else if query(<main-bib>) == () and counter("bibs").get().first() == 1 {
     // This is the first bibliography, 
-    // and there is no main bibliography
-    bibliography(bib-sources, ..bib-params)
+    // and there is no main bibliography.
+    bibliography(bib-sources, style: "ieee")
   }
 }
 
@@ -143,3 +144,40 @@
   ),
   hline
 )
+
+#let vspace-before-chapter = v(2em)
+
+#let remove-show-rules(
+  // Page with this label won't have a header.
+  // For example: <main-conclusion>, <main-bib>
+  p-label,
+  title: none,
+  document
+) = [
+  // Remove show rules with numbering.
+  #show heading: it => [
+    // Wrapped into block so it isn't treated as a paragraph
+    // messing up the non-indent of the first line.
+    #block(
+      above: heading-1-block-ypad,
+      below: heading-1-block-ypad,
+    )[
+      #vspace-before-chapter
+      #text(size: heading-1-suplement-size)[
+        #it.body
+      ]
+    ]
+  ]
+
+  // Set header.
+  #set page(header: context {
+    if here().page() != query(p-label).first().location().page() [
+      #header-stack(
+        [#title]
+      )
+    ] 
+  })
+
+  #document
+]
+

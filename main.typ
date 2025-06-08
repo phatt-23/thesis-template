@@ -12,7 +12,7 @@
 
 
 // Centralised basic configuration - metadata of the document.
-#let config-database = toml("config.toml")
+#let config-database = toml("./config.toml")
 #linguify-plug.set-database(config-database)
 
 
@@ -53,7 +53,8 @@
   ..math-fonts.pagella,
 )
 
-// Raw fonts for code and other placese where a monospace font is required.
+// Raw fonts for code and other placese where 
+// a monospace font is required.
 #let raw-fonts = (
   sourcecode: (font: "SauceCodePro NF", size: 10pt),
   lm: (font: "Latin Modern Mono 12", size: 11pt),
@@ -109,6 +110,21 @@
 // can color the affected red with text(fill: red)[#it.text.first()~].
 #show regex("\b\w\b\s"): it => [#it.text.first()~]
 
+#set page(
+  // Standard page in Europe.
+  paper: "a4",
+  // Recommended margin is 2.5cm which is about 1in
+  // so I'm gonna stick with inches.
+  margin: (
+    left: 1in, 
+    right: 1in,
+    top: 1.2in,
+    bottom: 1.1in,
+  ),
+)
+
+//////////////////////////////////////////////////////////////////////////
+
 // Title page is here because I don't want any 
 // later rules to affect it.
 #show: pages.title-page.with(
@@ -116,12 +132,14 @@
     cs: linguify("title", lang: "cs"),
     en: linguify("title", lang: "en"),
   ),
-  authors: config-database.conf.authors,
-  supervisor: config-database.conf.supervisor,
-  thesis-type: "master",
-  publish-location: "Ostrava",
-  publish-year: datetime.today().year()
+  authors: config-database.thesis.authors,
+  supervisor: config-database.thesis.supervisor,
+  thesis-type: config-database.thesis.type,
+  publish-location: config-database.thesis.publish-location,
+  publish-year: config-database.thesis.publish-year,
 )
+
+//////////////////////////////////////////////////////////////////////////
 
 // Space between each line. 
 // Should be up to the font's adjustments. 
@@ -138,6 +156,162 @@
   )
 ) 
 
+//////////////////////////////////////////////////////////////////////////
+
+// Assignment PDF.
+#show: pages.thesis-assignment.with(
+  ..(
+    (if config-database.thesis.assigned {(path: config-database.thesis.assignment)}),
+  ).join()
+)
+
+// Abstract and keywords.
+#show: pages.abstract-and-keywords.with(
+  abstract-title: (
+    en: linguify("abstract", lang: "en"),
+    cs: linguify("abstract", lang: "cs"),
+  ),
+  abstract-body: (
+    en: [
+      #lorem(20)
+      #lorem(40)
+    ],
+    cs: [
+      #lorem(20)
+      #lorem(40)
+    ],
+  ),
+  keywords-title: (
+    en: linguify("keywords", lang: "en"),
+    cs: linguify("keywords", lang: "cs"),
+  ), 
+  keywords: (
+    en: (
+      ..lorem(20).split(" ")
+    ),
+    cs: (
+      ..lorem(20).split(" ")
+    ),
+  )
+)
+
+// Thanks.
+#show: pages.thanks-page.with([
+  #lorem(30)
+], title: linguify("acknowledgements"))
+
+// List of symbols and abbrevs.
+#show: pages.list-of-symbols.with(
+  title: linguify("list-of-symbols"),
+  symbols: (
+    ([WTF], [What the fuck]),
+    ([DPC], [Do $x^2$ pice]),
+    ([KDPC], [Kurva do pice $->$ aaaah]),
+  ) 
+)
+
+//////////////////////////////////////////////////////////////////////////
+
+// Counter settings.
+#let footer-counter = (
+  out-of: () => counter(page).display(
+    "1 / 1", 
+    both: true
+  ),
+  just-number: () => counter(page).display(
+    "1", 
+    both: false
+  ),
+)
+
+#let titled-footer-content(
+  counter-fn
+) = stack(
+  spacing: 0.8em,
+  hline,
+  [
+    #box(width: 90%)[
+      #text(size: 0.9em)[#smallcaps[#linguify("title")]]
+    ] 
+    #h(1fr) 
+    #(counter-fn)()
+  ]
+)
+
+#let page-footer = (
+  number-single: context [
+    #align(center)[
+      #(footer-counter.just-number)()
+    ] 
+  ],
+  number-both: context [
+    #align(center)[
+      #(footer-counter.out-of)()
+    ]
+  ],
+  titled-single: context [
+    #titled-footer-content(footer-counter.just-number)
+  ],
+  titled-both: context [
+    #titled-footer-content(footer-counter.out-of)
+  ],
+)
+
+#set page(
+  // Footer with a counter.
+  // Having the title on the left and counter on the right
+  // would be nice. Don't know if it's possible.
+  footer-descent: 30%,
+  footer: context [
+    #stack(
+      spacing: 0.8em,
+      // page-footer.titled-both,
+      // page-footer.titled-single,
+      page-footer.number-single,
+      // page-footer.number-both,
+    )
+  ],
+)
+
+//////////////////////////////////////////////////////////////////////////
+
+#show: pages.outline-page.with(
+  title: linguify("outline")
+)
+
+#show: pages.intro-page.with(
+  title: linguify("intro"),
+  body: [
+    #lorem(40)
+
+    #lorem(40)
+
+    #lorem(80)
+
+    #lorem(160)
+
+    #lorem(320)
+  ]
+)
+
+//////////////////////////////////////////////////////////////////////////
+
+// The rest of the page settings.
+#set page(
+  // Header with chapter of level 1.
+  header-ascent: 30%,
+  header: context [
+    #let heading-1 = utils.current-heading(level: 1)
+
+    #if heading-1.location().page() != here().page() [
+      #utils.header-stack(
+        heading-1.body, 
+        numbering: utils.current-numbering(heading-1)
+      )
+    ]
+  ],
+)
+
 // Heading settings.
 
 // I want heading be called 'Chapter'
@@ -147,9 +321,6 @@
 )
 
 // Headings settings for all headings levels.
-#let heading-size = 1.25em
-#let heading-block-ypad = 1.5em
-
 #set heading(numbering: "1.1")
 #show heading: it => [
   #show: utils.ignore-first-line-indent.with()
@@ -174,15 +345,12 @@
 //    Chapter {number}
 //    Title
 // thing.
-#let heading-1-size = 1.5em
-#let heading-1-block-ypad = 2.5em
-
 #show heading.where(level: 1): it => [
   #show: utils.ignore-first-line-indent.with()
   #let current-heading = utils.current-heading(level: 1)
 
   #pagebreak(weak: true)
-  #v(2em)
+  #utils.vspace-before-chapter
 
   // Wrapped into block so it isn't treated as a paragraph
   // messing up the non-indent of the first line.
@@ -190,7 +358,7 @@
     above: heading-1-block-ypad,
     below: heading-1-block-ypad,
   )[
-    #text(size: heading-size)[
+    #text(size: heading-1-suplement-size)[
       #it.supplement 
       #utils.current-numbering(current-heading)
     ]
@@ -201,105 +369,51 @@
   ] 
 ]
 
-#let footer-counter = (
-  out-of: () => counter(page).display(
-    "1 / 1", 
-    both: true
-  ),
-  just-number: () => counter(page).display(
-    "1", 
-    both: false
-  ),
+// Make links blue, underlined and use different font.
+#show link: set text(
+  fill: rgb(0, 0, 100),
+  ..raw-fonts.lm
+)
+#show link: underline.with(
+  stroke: 0.5pt
 )
 
-#let footer-title-box-settings = (
-  // stroke: red, 
-  width: 90% 
-)
+//////////////////////////////////////////////////////////////////////////
 
-#let titled-footer-content(
-  counter-fn
-) = stack(
-  spacing: 0.8em,
-  hline,
-  [
-    #box(..footer-title-box-settings)[
-      #text(size: 0.9em)[#smallcaps[#linguify("title")]]
-    ] 
-    #h(1fr) 
-    #(counter-fn)()
+// Chapters
+#include "./chapters/chapter-1.typ"
+#include "./chapters/chapter-2.typ"
+#include "./chapters/chapter-3.typ"
+#include "./chapters/demo-chapters.typ"
+
+// Conclusion
+#show: pages.conclusion-page.with(
+  title: linguify("conclusion"),
+  body: [
+    #lorem(20)
+
+    #lorem(40)
+
+    #lorem(80) 
+
+    #lorem(160) 
+
+    #lorem(320) 
   ]
 )
 
-
-#let page-footer = (
-  number-single: context [
-    #align(center)[
-      #(footer-counter.just-number)()
-    ] 
-  ],
-  number-both: context [
-    #align(center)[
-      #(footer-counter.out-of)()
-    ]
-  ],
-  titled-single: context [
-    #titled-footer-content(footer-counter.just-number)
-  ],
-  titled-both: context [
-    #titled-footer-content(footer-counter.out-of)
-  ],
-)
-
-
-#set page(
-  // Standard page in Europe.
-  paper: "a4",
-  // Recommended margin is 2.5cm which is about 1in
-  // so I'm gonna stick with inches.
-  margin: (
-    left: 1in, 
-    right: 1in,
-    top: 1.2in,
-    bottom: 1.1in,
-  ),
-  // Header with chapter of level 1.
-  header-ascent: 30%,
-  header: context [
-    #let heading-1 = utils.current-heading(level: 1)
-
-    #if heading-1.location().page() != here().page() [
-      #utils.header-stack(
-        heading-1.body, 
-        numbering: utils.current-numbering(heading-1)
-      )
-    ]
-  ],
-  // Footer with a counter.
-  // Having the title on the left and counter on the right
-  // would be nice. Don't know if it's possible.
-  footer-descent: 30%,
-  footer: context [
-    #stack(
-      spacing: 0.8em,
-      // page-footer.titled-both,
-      // page-footer.titled-single,
-      page-footer.number-single,
-      // page-footer.number-both,
-    )
-  ],
-)
-
-// Make links blue and be underlined.
-#show link: set text(fill: rgb(0, 0, 100)); 
-#show link: underline; 
-
-// Chapters
-#include "chapters/chapter-2.typ"
-#include "chapters/demo-chapters.typ"
-
 // Bibliograhy
-#show: pages.bibliography-page
+#show: pages.bibliography-page.with(
+  title: linguify("bibliography"),
+  bib-sources: (
+    "./bib.yml"
+  ),
+  bib-params: (
+    style: "./assets/iso690-numeric-brackets-cs.csl",
+  )
+)
 
 // Appendix
+// Attachments, source code, diagrams...
 
+//////////////////////////////////////////////////////////////////////////

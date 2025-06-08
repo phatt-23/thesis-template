@@ -1,16 +1,22 @@
 [conf]
 # options: "cs", "en"
-# lang = "en"
 lang = "cs"
-authors = [
+
+[thesis]
+authors = [ 
     "Phat Tran Dai",
     # "Jan Novak",
     # "Emil Macha",
-    # "Tomas Zboril",
 ]
 supervisor = "Borivoj Gulas"
+publish-location = "Ostrava"
+publish-year = "2025"
+type = "bachelor"
+assigned = true
+assignment = "./assets/thesis-assignment.pdf"
 
 [lang.en] 
+
 title = "Component of Learning Server for Theoretical Computer Science - NP-complete problems 2"
 and = "&"
 bachelor-thesis = "Bachelor Thesis"
@@ -19,6 +25,13 @@ phd-thesis = "PhD Thesis"
 supervisor = "Supervisor"
 section-suplement = "Chapter"
 bibliography = "Bibliography"
+conclusion = "Conclusion"
+abstract = "Abstract"
+keywords = "Keywords"
+list-of-symbols = "List of symbols and abbreviations"
+outline = "Outline"
+acknowledgements = "Acknowledgements"
+intro = "Intro"
 
 [lang.cs] 
 title = "Komponenta výukového serveru TI - P-úplné problémy 2"
@@ -29,3 +42,11 @@ phd-thesis = "Disertační práce"
 supervisor = "Vedoucí práce"
 section-suplement = "Kapitola"
 bibliography = "Literatura"
+conclusion = "Závěr"
+abstract = "Abstrakt"
+keywords = "Klíčová slova"
+list-of-symbols = "Seznam použitých zkratek a symbolů"
+outline = "Obsah"
+acknowledgements = "Poděkování"
+intro = "Úvod"
+
