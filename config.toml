@@ -1,0 +1,31 @@
+[conf]
+# options: "cs", "en"
+# lang = "en"
+lang = "cs"
+authors = [
+    "Phat Tran Dai",
+    # "Jan Novak",
+    # "Emil Macha",
+    # "Tomas Zboril",
+]
+supervisor = "Borivoj Gulas"
+
+[lang.en] 
+title = "Component of Learning Server for Theoretical Computer Science - NP-complete problems 2"
+and = "&"
+bachelor-thesis = "Bachelor Thesis"
+master-thesis = "Diploma Thesis"
+phd-thesis = "PhD Thesis"
+supervisor = "Supervisor"
+section-suplement = "Chapter"
+bibliography = "Bibliography"
+
+[lang.cs] 
+title = "Komponenta výukového serveru TI - P-úplné problémy 2"
+and = "&"
+bachelor-thesis = "Bakalářská práce"
+master-thesis = "Diplomová práce"
+phd-thesis = "Disertační práce"
+supervisor = "Vedoucí práce"
+section-suplement = "Kapitola"
+bibliography = "Literatura"
