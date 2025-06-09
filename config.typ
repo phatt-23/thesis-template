@@ -21,7 +21,7 @@
   assignment: "/assets/thesis-assignment.pdf",
   logo-en: "/assets/logo_fei_en.svg",
   logo-cs: "/assets/logo_fei_cs.svg",
-  linguify-database: "/assets/linguify-database.toml",
+  lang-database: "/assets/lang-database.toml",
 )
 
 // Sizing.

@@ -14,7 +14,7 @@
 #import "/config.typ": sizing, assets, thesis, document, math-shorthands
 
 // Centralised basic configuration - metadata of the document.
-#linguify-plug.set-database(toml(assets.linguify-database))
+#linguify-plug.set-database(toml(assets.lang-database))
 
 // Apply the math shorthands.
 #show: quick-maths.shorthands.with(..math-shorthands)
