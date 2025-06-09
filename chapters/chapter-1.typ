@@ -1,7 +1,7 @@
-#import "../global.typ": *
-#import "../utils.typ"
+#import "/lib/global.typ": *
+#import "/lib/utils.typ"
 
-#utils.load-bib(main: false)
+// #load-bib(main: false)
 
 = Heading Level 1
 

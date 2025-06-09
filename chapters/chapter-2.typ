@@ -1,7 +1,7 @@
-#import "/global.typ": *
-#import "/utils.typ" 
+#import "/lib/global.typ": *
+#import "/lib/utils.typ" 
 
-#utils.load-bib()
+#load-bib(main: false)
 
 = OFDM - Orthogonal Frequency Division Multiplexing
 // #lorem(10)
@@ -106,8 +106,8 @@ kostky nad druhou, konkrétně $P(B>A)$, $P(C>B)$ a $P(A>C)$, a ověříme,
     #let (rng, colors) = suiji.uniform(rng, size: 20)
     #let (rng, sizes) = suiji.uniform(rng, size: 20)
 
-    #lq.diagram(
-      lq.scatter(
+    #lilaq.diagram(
+      lilaq.scatter(
         x, y,
         size: sizes.map(size => 200 * size),
         color: colors,

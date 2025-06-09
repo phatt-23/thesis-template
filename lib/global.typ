@@ -3,10 +3,10 @@
 
 
 // For modern-looking code listings.
-#import "@preview/zebraw:0.5.5": *
+#import "@preview/zebraw:0.5.5": zebraw, zebraw-init
 
 // For data visualisation.
-#import "@preview/lilaq:0.3.0" as lq
+#import "@preview/lilaq:0.3.0"
 
 // Randomiser.
 #import "@preview/suiji:0.3.0" 
@@ -16,7 +16,10 @@
 #import "@preview/quick-maths:0.2.1"
 
 // For writing pseudocode.
-#import "@preview/lovelace:0.3.0": *
+#import "@preview/lovelace:0.3.0" 
+
+// For writing pseudocode. Classic.
+#import "@preview/algorithmic:1.0.0" 
 
 // For automatic choosing of the correct string in the 
 // global database (TOML config file) based on the set text.lang.
@@ -34,12 +37,19 @@
 // Outline.
 #import "@preview/outrageous:0.4.0"
 
+#import "/lib/utils.typ"
+#import "/config.typ"
 
-#let heading-size = 1.2em
-#let heading-block-ypad = 1.5em
+// Lower level inteface. Isn't written like a list.
+// Have to write indent() manually and wrap the text in [].
+#let pseudocode = lovelace.pseudocode.with(..config.document.lovelace-defaults)
+// Just like a nested list.
+#let pseudocode-list = lovelace.pseudocode-list.with(..config.document.lovelace-defaults)
 
-#let heading-1-suplement-size = 1.15em
-#let heading-1-size = 1.55em
-#let heading-1-block-ypad = 2.5em
-
-
+#let load-bib(main: false) = utils.load-bib-impl(
+  bib-sources: config.assets.bib-sources,
+  bib-params: (
+    style: config.assets.bib-style,
+  ),
+  main: main,
+)
