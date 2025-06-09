@@ -126,7 +126,7 @@
         heading-1.body
       )
     ] 
-  ] 
+  ],
 )
 
 #let titled-footer-content(
@@ -265,7 +265,7 @@
     #page-heading-chapter-impl(heading)
   ],
   "appendix": heading => [
-    #pagebreak(weak: true)
+    // #pagebreak(weak: true)
     #page-heading-appendix-impl(heading)
   ]
 )

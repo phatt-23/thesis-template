@@ -214,70 +214,67 @@
 
 // Appendix
 // Attachments, source code, diagrams...
-#show: pages.appendices-page.with(appendices: (
-  ([Qsort implementation], [
-    Implementation is in Haskell.
+#show: pages.appendices-page.with(
+  appendices-title: linguify("appendices"),
+  appendices: (
+    ([Qsort implementation], [
+      Implementation is in Haskell.
 
-    #zebraw(```hs
-    quicksort [] = []
-    quicksort (p:xs) = (quicksort lesser) ++ [p] ++ (quicksort greater)
-    where
-        lesser = filter (< p) xs
-        greater = filter (>= p) xs 
-    ```)
+      #zebraw(```hs
+      quicksort [] = []
+      quicksort (p:xs) = (quicksort lesser) ++ [p] ++ (quicksort greater)
+        where
+          lesser = filter (< p) xs
+          greater = filter (>= p) xs 
+      ```)
 
-    Yes. Very cool.
+      Yes. Very cool.
 
-    #algorithm-figure(
-      "Binary Search",
-      vstroke: 4.5pt + luma(200),
-      {
-        import algorithmic: *
-        Procedure(
-          "Binary-Search",
-          ("A", "n", "v"),
-          {
-            Comment[Initialize the search range]
-            Assign[$l$][$1$]
-            Assign[$r$][$n$]
-            LineBreak
-            While(
-              $l <= r$,
-              {
+      #algorithm-figure(
+        "Binary Search",
+        vstroke: 4.5pt + luma(200),
+        {
+          import algorithmic: *
+          Procedure(
+            "Binary-Search",
+            ("A", "n", "v"),
+            {
+              Comment[Initialize the search range]
+              Assign[$l$][$1$]
+              Assign[$r$][$n$]
+              LineBreak
+              While($l <= r$, {
                 Assign([mid], FnInline[floor][$(l + r) / 2$])
                 IfElseChain(
-                  $A ["mid"] < v$,
-                  {
+                  $A ["mid"] < v$, {
                     Assign[$l$][$m + 1$]
-                  },
-                  [$A ["mid"] > v$],
-                  {
+                  }, [$A ["mid"] > v$], {
                     Assign[$r$][$m - 1$]
                   },
                   Return[$m$],
                 )
-              },
-            )
-            Return[*null*]
-          },
-        )
-      }
-    )
+              })
+              Return[*null*]
+            },
+          )
+        }
+      )
 
-  ]),
-  ([Shit table], [
-    #table(columns: (auto, auto), 
-      [A], [B],
-      [B], [C],
-      [C], [D],
-    )
+    ]),
+    ([Shit table], [
+      #table(columns: (auto, auto), 
+        [A], [B],
+        [B], [C],
+        [C], [D],
+      )
 
-    #algorithm-figure("Variable Assignment", {
-      import algorithmic: *
-      Assign[$x$][$y$]
-    })
-  ]),
-))
+      #algorithm-figure("Variable Assignment", {
+        import algorithmic: *
+        Assign[$x$][$y$]
+      })
+    ]),
+  )
+)
 
 // END
 //////////////////////////////////////////////////////////////////////////

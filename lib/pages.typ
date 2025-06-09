@@ -280,17 +280,26 @@
   //  key : value
   //  [qsort implementation], [fragement of source code]
   appendices: (),
+  appendices-title: none,
   document,
 ) = [
-  #show heading: it => (utils.page-heading.appendix)(it)
+  #if appendices == () { return }
 
+  #show: page.with(header: utils.header-stack( appendices-title ))
+
+  // Reset the heading counter and change the numbering.
   #counter(heading).update(0)
+  #show heading: it => (utils.page-heading.appendix)(it)
   #set heading(numbering: config.document.heading.appendix-numbering)
+
+  // Set the header. 
 
   #for (key, value) in appendices [
     = #key
       
     #value
+
+    #pagebreak(weak: true)
   ]
 
   #document
