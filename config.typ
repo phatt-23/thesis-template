@@ -59,13 +59,25 @@
   // Raw fonts for code and other placese where 
   // a monospace font is required.
   raw: (
-    sourcecode: (font: "SauceCodePro NF", size: 10pt),
+    // Thin
+    cursor: (font: "TeX Gyre Cursor", size: 10pt, weight: "regular"),
+    // Bookish look.
+    courier: (font: "Courier Prime", size: 9pt),
     lm: (font: "Latin Modern Mono 12", size: 11pt),
+    // This is nice.
+    sourcecode: (font: "SauceCodePro NF", size: 9pt),
+    inconsolata: (font: "Inconsolata", size: 10pt),
   )
 )
 
 // Document config.
 #let document = (
+  fonts: (
+    normal: fonts.normal.pagella,
+    math: fonts.math.pagella,
+    raw: fonts.raw.courier,
+  ),
+
   page: (
     // Standard page in Europe.
     paper: "a4",
@@ -95,15 +107,11 @@
     footer-descent: 30%,
   ),
 
-  fonts: (
-    normal: fonts.normal.pagella,
-    math: fonts.math.pagella,
-    raw: fonts.raw.lm,
-  ),
 
   link: (
     fill: rgb(0, 0, 100),
     underline-stroke: 0.5pt,
+    underline-offset: 1pt,
   ),
   
   paragraph: (
@@ -171,6 +179,38 @@
     // Line numbering format.
     line-numbering: "1",
   ),
+
+  // Source code listing defaults.
+  sourcecode-defaults: (
+    frame: block.with(
+      fill: luma(255),
+      stroke: (
+        top: 0.5pt + luma(160),
+        bottom: 0.5pt + luma(160)
+      ),
+      inset: (x: .2em, y: .8em),
+      breakable: true,
+      width: 100%,
+    ),
+    numbers-style: lno => text(.8em, luma(160), raw(lno)),
+    numbers-align: top+right,
+  ),
+
+  algorithmic-style: it => {
+    show figure.where(kind: "algorithm"): it => {
+      set align(left)
+      table(
+        columns: 1,
+        stroke: none,
+        table.hline(stroke: 0.5pt + luma(0)),
+        strong(it.caption),
+        table.hline(stroke: 0.5pt + luma(0)),
+        it.body,
+        table.hline(stroke: 0.5pt + luma(0)),
+      )
+    }
+    it
+  }
 )
 
 #let math-shorthands = (

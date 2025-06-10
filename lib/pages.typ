@@ -87,9 +87,9 @@
   document,
 ) = [
   #if path != none [
-    // #muchpdf(
-    //   read(path, encoding: none),
-    // )
+    #muchpdf(
+      read(path, encoding: none),
+    )
   ]
 
   #document
@@ -99,7 +99,7 @@
   abstract-title: (en: [], cs: []),
   abstract-body: (en: [], cs: []),
   keywords-title: (en: [], cs: []),
-  keywords: (en: [], cs: []),
+  keywords: (en: (), cs: ()),
   document,
 ) = context [
   #let f-abs-title = if text.lang == "en" { abstract-title.en } else { abstract-title.cs }
@@ -122,8 +122,10 @@
 
     #f-abs-body
 
-    #block[
-      *#f-key-title:* #f-keys.join(", ")
+    #if f-keys != () [
+      #block[
+        *#f-key-title:* #f-keys.join(", ")
+      ]
     ]
 
     #v(10em)
@@ -132,8 +134,10 @@
 
     #l-abs-body
 
-    #block[
-      *#l-key-title:* #l-keys.join(", ")
+    #if l-keys != () [
+      #block[
+        *#l-key-title:* #l-keys.join(", ")
+      ]
     ]
   ]
 
@@ -145,25 +149,27 @@
   symbols: (),
   document,
 ) = [
-  #show: apply-non-chapter-show-rule
+  #if symbols != () [
+    #show: apply-non-chapter-show-rule
 
-  #let keys = symbols.map(x => x.at(0))
-  #let values = symbols.map(x => x.at(1))
+    #let keys = symbols.map(x => x.at(0))
+    #let values = symbols.map(x => x.at(1))
 
-  #let table-content = ()
-  #for (k, v) in symbols {
-    table-content.push([#k])
-    table-content.push([--])
-    table-content.push([#v])
-  }
+    #let table-content = ()
+    #for (k, v) in symbols {
+      table-content.push([#k])
+      table-content.push([--])
+      table-content.push([#v])
+    }
 
-  #heading(outlined: false)[#title]
+    #heading(outlined: false)[#title]
 
-  #table(
-    columns: (10em, 1em, auto),
-    stroke: none,
-    ..table-content
-  )
+    #table(
+      columns: (10em, 1em, auto),
+      stroke: none,
+      ..table-content
+    )
+  ]
 
   #document
 ]
@@ -245,21 +251,6 @@
   #document
 ]
 
-#let dummy-page(
-  document,
-) = [
-  #show: apply-non-chapter-show-rule
-
-  #pagebreak(weak: true)
-
-  = Dummy
-  
-  #lorem(20)
-
-  #document
-]
-
-
 #let bibliography-page(
   title: none,
   document,
@@ -275,6 +266,7 @@
 
   #document
 ]
+
 #let appendices-page(
   // Array of pairs of contents
   //  key : value
@@ -306,20 +298,23 @@
 ]
 
 #let thanks-page(
-  body,
+  body: [],
   title: none,
+  want-to-include: true,
   document,
 ) = [
-  #show: apply-non-chapter-show-rule
+  #if want-to-include [
+    #show: apply-non-chapter-show-rule
 
-  #pagebreak(weak: true)
+    #pagebreak(weak: true)
 
-  #align(bottom)[
-    #if title != none [
-      #heading(outlined: false)[#title]
+    #align(bottom)[
+      #if title != none [
+        #heading(outlined: false)[#title]
+      ]
+
+      #body
     ]
-
-    #body
   ]
 
   #document

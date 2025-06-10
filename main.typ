@@ -1,9 +1,6 @@
 // Import the global imports and other stuff.
 #import "/lib/global.typ": *
 
-// My utils - functions, variables.
-#import "/lib/utils.typ" as utils: hline
-
 // Pages that are always required like:
 // title, abstract, outline, conclusion, literature, apendix etc.
 // These are injected into the template in their correct spots.
@@ -11,7 +8,7 @@
 #import "/lib/pages.typ"
 
 // User controlled configuration file.
-#import "/config.typ": sizing, assets, thesis, document, math-shorthands
+#import "/config.typ": assets, thesis, document, math-shorthands
 
 // Centralised basic configuration - metadata of the document.
 #linguify-plug.set-database(toml(assets.lang-database))
@@ -28,26 +25,36 @@
 #show math.equation: set text(..document.fonts.math)
 #show raw: set text(..document.fonts.raw)
 
-// Raw code blocks.
-// Wrap code in #zebraw() to apply these settings.
-#show: zebraw-init.with(..document.zebraw-block)
-
 // Disables single letter word to be at the end of the line
 // which this is typographically desired. For debugging you
 // can color the affected red with text(fill: red)[#it.text.first()~].
 #show regex("\b\w\b\s"): it => [#it.text.first()~]
 
+// Page settings that apply to all pages.
 #set page(
   paper: document.page.paper,
   margin: document.page.margin,
 )
 
-#import algorithmic: algorithm-figure, style-algorithm
-#show: style-algorithm.with(
+// Make figures breakable if they are too long.
+// It allows breaking into other pages.
+#show figure: set block(breakable: true)
 
+// Algorithmic styling.
+#show: document.algorithmic-style
+
+// Table style.
+#set table(
+  // Make the lines thiner.
+  stroke: 0.5pt,
+  // Align the content in the cells to horizon.
+  align: horizon,
 )
 
-// BEGIN
+// Content for preliminary and concluding pages.
+#import "/chapters/preliminary-and-concluding.typ" as PAC
+
+// BEGIN: title
 //////////////////////////////////////////////////////////////////////////
 
 // Title page is here because I don't want any
@@ -69,13 +76,11 @@
 
 #set par(..document.paragraph)
 
-// BEGIN
+// BEGIN: assignment PDF, abstract and keywords, thanks, list of symbols
 //////////////////////////////////////////////////////////////////////////
 
 // Assignment PDF.
-#show: pages.thesis-assignment.with(
-  path: if false {assets.assignment} else {auto}
-)
+#show: pages.thesis-assignment.with(path: if thesis.assigned { assets.assignment } else { auto })
 
 // Abstract and keywords.
 #show: pages.abstract-and-keywords.with(
@@ -84,44 +89,29 @@
     cs: linguify("abstract", lang: "cs"),
   ),
   abstract-body: (
-    en: [
-      #lorem(20)
-      #lorem(40)
-    ],
-    cs: [
-      #lorem(20)
-      #lorem(40)
-    ],
+    en: PAC.abstract.en,
+    cs: PAC.abstract.cs,
   ),
   keywords-title: (
     en: linguify("keywords", lang: "en"),
     cs: linguify("keywords", lang: "cs"),
   ),
   keywords: (
-    en: (
-      ..lorem(20).split(" "),
-    ),
-    cs: (
-      ..lorem(20).split(" "),
-    ),
+    en: PAC.keywords.en,
+    cs: PAC.keywords.cs,
   ),
 )
 
 // Thanks.
 #show: pages.thanks-page.with(
-  [
-    #lorem(30)
-  ],
+  body: PAC.thanks.body,
+  want-to-include: PAC.thanks.want-to-include,
   title: linguify("acknowledgements"),
 )
 
 // List of symbols and abbrevs.
 #show: pages.list-of-symbols.with(
-  symbols: (
-    ([WTF], [What the fuck]),
-    ([DPC], [Do $x^2$ pice]),
-    ([KDPC], [Kurva do pice $->$ aaaah]),
-  ),
+  symbols: PAC.symbols-and-abbrevs,
   title: linguify("list-of-symbols"),
 )
 
@@ -133,7 +123,7 @@
   footer: utils.page-footer.at(document.page.footer),
 )
 
-// BEGIN
+// BEGIN: outline, intro
 //////////////////////////////////////////////////////////////////////////
 
 #show: pages.outline-page.with(
@@ -145,17 +135,7 @@
 
 #show: pages.intro-page.with(
   title: linguify("intro"),
-  body: [
-    #lorem(40)
-
-    #lorem(40)
-
-    #lorem(80)
-
-    #lorem(160)
-
-    #lorem(320)
-  ],
+  body: PAC.intro,
 )
 
 // END
@@ -179,102 +159,34 @@
 #show heading.where(level: 1): utils.page-heading.at(document.heading.h-1)
 
 #show link: set text(fill: document.link.fill, ..document.fonts.raw)
-#show link: underline.with(stroke: document.link.underline-stroke)
+#show link: underline.with(stroke: document.link.underline-stroke, offset: document.link.underline-offset)
 
-// BEGIN
+// BEGIN: chapters, conclusion, bibliography, appendices
 //////////////////////////////////////////////////////////////////////////
 
 // Chapters
 #include "./chapters/chapter-1.typ"
 #include "./chapters/chapter-2.typ"
 #include "./chapters/chapter-3.typ"
-#include "./chapters/demo-chapters.typ"
+#include "./chapters/chapter-4.typ"
 
 
 // Conclusion
 #show: pages.conclusion-page.with(
   title: linguify("conclusion"),
-  body: [
-    #lorem(20)
-
-    #lorem(40)
-
-    #lorem(80)
-
-    #lorem(160)
-
-    #lorem(320)
-  ],
+  body: PAC.conclusion,
 )
-
-// #show: pages.dummy-page.with()
 
 // Bibliograhy
 #show: pages.bibliography-page.with(title: linguify("bibliography"))
 
-// Appendix
+// Appendices
 // Attachments, source code, diagrams...
 #show: pages.appendices-page.with(
   appendices-title: linguify("appendices"),
-  appendices: (
-    ([Qsort implementation], [
-      Implementation is in Haskell.
-
-      #zebraw(```hs
-      quicksort [] = []
-      quicksort (p:xs) = (quicksort lesser) ++ [p] ++ (quicksort greater)
-        where
-          lesser = filter (< p) xs
-          greater = filter (>= p) xs 
-      ```)
-
-      Yes. Very cool.
-
-      #algorithm-figure(
-        "Binary Search",
-        vstroke: 4.5pt + luma(200),
-        {
-          import algorithmic: *
-          Procedure(
-            "Binary-Search",
-            ("A", "n", "v"),
-            {
-              Comment[Initialize the search range]
-              Assign[$l$][$1$]
-              Assign[$r$][$n$]
-              LineBreak
-              While($l <= r$, {
-                Assign([mid], FnInline[floor][$(l + r) / 2$])
-                IfElseChain(
-                  $A ["mid"] < v$, {
-                    Assign[$l$][$m + 1$]
-                  }, [$A ["mid"] > v$], {
-                    Assign[$r$][$m - 1$]
-                  },
-                  Return[$m$],
-                )
-              })
-              Return[*null*]
-            },
-          )
-        }
-      )
-
-    ]),
-    ([Shit table], [
-      #table(columns: (auto, auto), 
-        [A], [B],
-        [B], [C],
-        [C], [D],
-      )
-
-      #algorithm-figure("Variable Assignment", {
-        import algorithmic: *
-        Assign[$x$][$y$]
-      })
-    ]),
-  )
+  appendices: PAC.appendices,
 )
 
 // END
 //////////////////////////////////////////////////////////////////////////
+

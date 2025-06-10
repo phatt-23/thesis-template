@@ -30,9 +30,40 @@
 //   ]
 // )
 
+#figure(
+  table-with-header(
+    columns: (auto, auto),
+    table.header(
+      [*Index*], [*Value*],
+    ),
+    ..(
+        [1], [10],
+        [2], [11],
+        [3], [12],
+        [4], [13],
+    ) * 10
+  ), 
+  caption: [A looong table]
+)
+
 #lorem(20)
 
 == Subheading Level 2
+
+#lorem(100)
+
+#figure(
+  table-with-header(
+    columns: 2,
+    table.header(
+      [*Shape*], [*Area*],
+    ),
+    [Circle], $ pi r^2 $,
+    [Square], $ a^2 $,
+    [Rectangle], $ a b $,
+  ), 
+  caption: [A simple table]
+)
 
 #lorem(100)
 

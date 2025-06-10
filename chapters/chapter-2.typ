@@ -1,5 +1,6 @@
 #import "/lib/global.typ": *
 #import "/lib/utils.typ" 
+#import physica: *
 
 #load-bib(main: false)
 
@@ -29,38 +30,36 @@ $
 Code snippet in C programming langauge:
 
 #figure(
-  zebraw(
-    ```c
-    #include <stdio.h>
+  sourcecode[
+  ```c
+  #include <stdio.h>
 
-    int main() {
-      printf("hello, world!\n");
-      return 0;
-    }
-    ```
-  ),
+  int main() {
+    printf("hello, world!\n");
+    return 0;
+  }
+  ```],
   caption: [Computer program in C language]
 )
 
 More simple langauge, for example SQL:
 
 #figure(
-  zebraw(
-    ```sql
-    SELECT 
-      c.customer_id, 
-      c.fname,
-      c.lname,
-      c.email
-    FROM customer c
-    WHERE EXISTS (
-      SELECT *
-      FROM purchase p
-      WHERE p.customer_id = c.customer_id 
-    )
-    ```
-  ),
-  caption: [lksdfljdl]
+  sourcecode(
+  ```sql
+  SELECT 
+    c.customer_id, 
+    c.fname,
+    c.lname,
+    c.email
+  FROM customer c
+  WHERE EXISTS (
+    SELECT *
+    FROM purchase p
+    WHERE p.customer_id = c.customer_id 
+  )
+  ```),
+  caption: [Simple SQL query]
 )
 
 == Subheading Level 2
@@ -94,6 +93,21 @@ kostky nad druhou, konkrétně $P(B>A)$, $P(C>B)$ a $P(A>C)$, a ověříme,
 
 #lorem(20)
 
+#sourcecode[```typ
+#show "ArtosFlow": name => box[
+  #box(image(
+    "logo.svg",
+    height: 0.7em,
+  ))
+  #name
+]
+
+This report is embedded in the
+ArtosFlow project. ArtosFlow is a
+project of the Artos Institute.
+```]
+
+
 === Subheading Level 3
 
 #lorem(50)
@@ -117,3 +131,7 @@ kostky nad druhou, konkrétně $P(B>A)$, $P(C>B)$ a $P(A>C)$, a ověříme,
   ],
   caption: [Some random data visualisation]
 )
+
+#lorem(30)
+
+

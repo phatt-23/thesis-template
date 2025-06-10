@@ -293,8 +293,8 @@
   bib-params: (
     style: "ieee", 
   ),
-) = context [
-  #counter("bibs").step()
+) = {
+  counter("bibs").step()
 
   // #if main and query(bibliography) != () [
   //   #panic(
@@ -307,19 +307,24 @@
   //     query(bibliography)
   //   ) 
   // ] else 
-  #if main [
+  context if main { 
     // Main bib is loaded
-    #bibliography(
-      bib-sources, 
-      ..bib-params,
-      title: none,
-      // Only for DEBUG is full set to true
-      full: true,
-    ) <main-bib>
-  ] else if query(<main-bib>) == () [
+    [
+      #bibliography(
+        bib-sources, 
+        ..bib-params,
+        title: none,
+        // Only for DEBUG is full set to true
+        full: true,
+      ) <main-bib>
+    ]
+  } else if query(<main-bib>) == () and counter("bibs").get().first() == 1 {
     // Wanted to load bibliography but 
     // there is no `main` bibliography.
- 
-    #panic("There is no main bibliography. Put the main bibliography for example at the end of the document.")
-  ] 
-] 
+
+    bibliography(bib-sources)
+
+    // panic("There is no main bibliography. Put the main bibliography for example at the end of the document.")
+  } 
+} 
+
