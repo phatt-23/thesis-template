@@ -21,7 +21,7 @@ It supports these types of theses:
     - **`iso690-numeric-brackets-cs.csl`** - citation standard in CSL language
     - **`logo_fei_cs.svg`** - czech version of VSB FEI logo
     - **`logo_fei_en.svg`** - english version of VSB FEI logo
-- **`chapters/`** - segment your chapters here, or just write it in main (not advisable)
+- **`chapters/`** - segment your chapters here
     - **`preliminary-and-concluding.typ`** - content for preliminary (abstract, thanks, intro...) and concluding pages (conclusion, appendices, ...)
     - **`chapter-1.typ`**
     - **`chapter-2.typ`**
@@ -44,6 +44,6 @@ zathura main.pdf
 # TODO
 
 - [ ] Create a documentation. Maybe use [tidy](https://typst.app/universe/package/tidy/).
-- [ ] Clean up the `main.typ` - show only the actual pages and the actual body of text, remove show rules and stuff.
+- [x] Clean up the `main.typ` - show only the actual pages and the actual body of text, remove show rules and stuff.
 
 
