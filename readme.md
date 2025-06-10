@@ -9,8 +9,8 @@ It supports these types of theses:
 
 # File Structure
 
-- **`main.typ`** - main entrypoint, compile this file
-- **`config.typ`** - personal configuration
+- **`main.typ`** - main entrypoint (compile this file), includes all pages and chapters
+- **`config.typ`** - personal configuration and styling
 - **`bib.yml`** - bibliography in YAML
 - **`lib/`** - here lives the code that does stuff
     - **`global.typ`** - import this in every chapter, provides libraries and load-bib
@@ -22,6 +22,7 @@ It supports these types of theses:
     - **`logo_fei_cs.svg`** - czech version of VSB FEI logo
     - **`logo_fei_en.svg`** - english version of VSB FEI logo
 - **`chapters/`** - segment your chapters here, or just write it in main (not advisable)
+    - **`preliminary-and-concluding.typ`** - content for preliminary (abstract, thanks, intro...) and concluding pages (conclusion, appendices, ...)
     - **`chapter-1.typ`**
     - **`chapter-2.typ`**
     - ...
