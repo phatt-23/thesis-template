@@ -56,10 +56,13 @@
   #v(1em)
 
   // Authors
-  #let authors-str-repr = authors.map(str).join(", ", last: " " + linguify("and") + " ")
-
   #text(size: 1.8em)[
-    #authors-str-repr
+    #authors.map((author) => {
+      let nomen = array(author.split(" "))
+      let temp = array(nomen.slice(0, nomen.len() - 1).map(n => [#n~]))
+      temp.push(nomen.last())
+      return temp
+    }).map((x) => x.join()).join(", ", last: [ #linguify("and") ])
   ]
 
   #align(bottom)[
@@ -179,6 +182,7 @@
   list-of-figures: none,
   list-of-tables: none,
   list-of-algorithms: none,
+  list-of-listings: none,
   document,
 ) = context [
   #let figures-exist(kind) = query(selector(figure.where(kind: kind))) != ()
@@ -229,6 +233,13 @@
     #outline(
       title: list-of-algorithms,
       target: figure.where(kind: "algorithm"),
+    )
+  ]
+
+  #if figures-exist(raw) [
+    #outline(
+      title: list-of-listings,
+      target: figure.where(kind: raw),
     )
   ]
 

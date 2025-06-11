@@ -24,6 +24,7 @@
 #set text(lang: thesis.lang, ..document.fonts.normal)
 #show math.equation: set text(..document.fonts.math)
 #show raw: set text(..document.fonts.raw)
+#set raw(theme: document.raw.theme)
 
 // Disables single letter word to be at the end of the line
 // which this is typographically desired. For debugging you
@@ -39,6 +40,7 @@
 // Make figures breakable if they are too long.
 // It allows breaking into other pages.
 #show figure: set block(breakable: true)
+#show figure.where(kind: "listing"): set figure(supplement: linguify("listing-supplement"))
 
 // Algorithmic styling.
 #show: document.algorithmic-style
@@ -61,8 +63,8 @@
 // later rules to affect it.
 #show: pages.title-page.with(
   title: (
-    cs: linguify("title", lang: "cs"),
-    en: linguify("title", lang: "en"),
+    cs: if thesis.lang == "en" {PAC.title.cs.sub} else {PAC.title.cs.main},
+    en: if thesis.lang == "en" {PAC.title.en.main} else {PAC.title.en.sub},
   ),
   authors: thesis.authors,
   supervisor: thesis.supervisor,
@@ -131,6 +133,7 @@
   list-of-figures: linguify("list-of-figures"),
   list-of-tables: linguify("list-of-tables"),
   list-of-algorithms: linguify("list-of-algorithms"),
+  list-of-listings: linguify("list-of-listings"),
 )
 
 #show: pages.intro-page.with(
@@ -151,7 +154,7 @@
 
 // I want heading be called 'Chapter' not 'Section' as it is by default.
 #set heading(
-  supplement: linguify("section-suplement"),
+  supplement: linguify("section-supplement"),
   numbering: document.heading.numbering,
 )
 

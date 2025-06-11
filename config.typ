@@ -1,7 +1,6 @@
 // Thesis
 #let thesis = (
-  // options: "cs", "en"
-  lang: "cs",
+  lang: "cs", // options: "cs", "en"
   authors: (
     "Phat Tran Dai",
     // "Jan Novak",
@@ -107,7 +106,6 @@
     footer-descent: 30%,
   ),
 
-
   link: (
     fill: rgb(0, 0, 100),
     underline-stroke: 0.5pt,
@@ -142,42 +140,19 @@
     v-space-after-br: 5em,
   ),
 
-  // Raw block settings.
-  zebraw-block: (
-    numbering: true,
-    numbering-separator: false,
-    // Language badge at the top right corner
-    lang: true,
-    // Langauge badge background color.
-    lang-color: luma(255 - 24),
-    // How the langauge badge looks like.
-    lang-font-args: (
-      weight: "bold",
-      fill: black,
-    ),
-    // How many levels will have indentation vertical lines?
-    indentation: 0,
-    // Inset of the number line.
-    inset: (
-      left: 0.2em,
-      right: 0.6em
-    ),
-    // I want more subtle background.
-    background-color: luma(255 - 4),
-  ),
-
-  // Pseudocode settings.
-  lovelace-defaults: (
-    // Indentation size and stroke.
-    indentation: 1.4em,
-    stroke: 0.75pt + luma(120),
-    // Hooked indent lines.
-    hooks: 0.25em,
-    // Booktabs are the vert lines at the start and end.
-    booktabs: true,
-    booktabs-stroke: 1pt + black,
-    // Line numbering format.
-    line-numbering: "1",
+  // Raw blocks and inlines
+  raw: (
+    // Theme in TextMate format.
+    theme: "/assets/my-raw-theme.tmTheme",
+    // {
+      // These were stolen from: https://github.com/filmgirl/TextMate-Themes
+      // import "/assets/raw-themes/themes.typ": best-themes 
+      // I like: 
+      //    "Notepad2.tmTheme", 
+      //    "Dawn.tmTheme", 
+      //    "ryan-light.tmTheme"
+      // "/assets/raw-themes/" + best-themes.at(0)
+    // }
   ),
 
   // Source code listing defaults.
@@ -196,6 +171,19 @@
     numbers-align: top+right,
   ),
 
+  // Pseudocode settings.
+  lovelace-defaults: (
+    // Indentation size and stroke.
+    indentation: 1.4em,
+    stroke: 0.75pt + luma(120),
+    // Hooked indent lines.
+    hooks: 0.25em,
+    // Booktabs are the vert lines at the start and end.
+    booktabs: true,
+    booktabs-stroke: 1pt + black,
+    // Line numbering format.
+    line-numbering: "1",
+  ),
   algorithmic-style: it => {
     show figure.where(kind: "algorithm"): it => {
       set align(left)
@@ -216,6 +204,5 @@
 #let math-shorthands = (
   ($+-$, $plus.minus$),
   ($|-$, math.tack),
-  ($<=$, math.arrow.l.double), 
 )
 

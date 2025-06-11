@@ -134,4 +134,3 @@ project of the Artos Institute.
 
 #lorem(30)
 
-
