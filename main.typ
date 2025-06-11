@@ -27,6 +27,9 @@
 #set raw(theme: document.raw.theme)
 
 // Math equation settings.
+// Add spacing to not cramp it with paragraphs.
+#show math.equation: set block(spacing: 1.2em)
+// Make sub-equations be referencable.
 #show: equate.equate.with(
   breakable: true, 
   sub-numbering: true, 
@@ -116,12 +119,6 @@
 
 // BEGIN: title
 //////////////////////////////////////////////////////////////////////////
-
-/ Term: description
-/ Term: description
----
-/ Term: description
-/ Term: description
 
 // Title page is here because I don't want any
 // later rules to affect it.

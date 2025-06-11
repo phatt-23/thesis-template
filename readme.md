@@ -54,9 +54,3 @@ You can then pipe the output to whichever Typst file you want.
 
 The PHP script itself is taken from (heureka/inflection)[https://github.com/heureka/inflection].
 
-# TODO
-
-- [ ] Create a documentation. Maybe use [tidy](https://typst.app/universe/package/tidy/).
-- [x] Clean up the `main.typ` - show only the actual pages and the actual body of text, remove show rules and stuff.
-
-
