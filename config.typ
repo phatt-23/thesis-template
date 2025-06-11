@@ -164,6 +164,10 @@
     numbering: "(1.1)",
   ),
 
+  reference: (
+    show-rule: "normal", 
+  ),
+
   // Source code listing defaults.
   sourcecode-defaults: (
     frame: block.with(

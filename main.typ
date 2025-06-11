@@ -24,7 +24,6 @@
 #set text(lang: thesis.lang, ..document.fonts.normal)
 #show math.equation: set text(..document.fonts.math)
 #show raw: set text(..document.fonts.raw)
-#set raw(theme: document.raw.theme)
 
 // Math equation settings.
 // Add spacing to not cramp it with paragraphs.
@@ -39,54 +38,7 @@
 )
 
 // Reference settings.
-#show ref.where(form: "normal"): it => {
-  let eq = math.equation
-  let el = it.element
-
-  {
-    // For references that are links, disable the style of the hyperlinks. 
-    // Make them look like normal text.
-    show link: set text(fill: document.text.fill, ..document.fonts.normal)
-
-    if el != none and el.func() == eq {
-      // Override equation references.
-
-      let num = if type(it.element.numbering) == str {
-        // Trim numbering pattern of prefix and suffix characters.
-        let counting-symbols = ("1", "a", "A", "i", "I", 
-                                "一", "壹", "あ", "い", 
-                                "ア", "イ", "א", "가", 
-                                "ㄱ", "*", "①", "⓵")
-
-        let prefix-end = it.element.numbering.codepoints().position(c => c in counting-symbols)
-        let suffix-start = it.element.numbering.codepoints().rev().position(c => c in counting-symbols)
-
-        it.element.numbering.slice(prefix-end, if suffix-start == 0 { none } else { -suffix-start })
-      } else {
-        it.element.numbering
-      }
-
-      let supplement = if it.citation.supplement != none {it.citation.supplement} else {it.element.supplement}
-
-      link(el.location(), [#supplement~#numbering(num, ..counter(eq).at(el.location()))])
-
-    } else if el != none and el.func() == figure and el.kind == eq {
-      // Override figure which kind is equation.
-      it
-
-    } else if el != none and el.func() != none {
-      [#it.func()#it]
-    } else {
-      // Other references as usual.
-      it 
-    }
-  }
-}
-
-#set math.equation(
-  numbering: document.math-equation.numbering,
-  number-align: right + horizon,
-)
+#show ref: utils.reference-show-rule-options.at(document.reference.show-rule)
 
 // Disables single letter word to be at the end of the line
 // which this is typographically desired. For debugging you
@@ -105,8 +57,11 @@
   breakable: true, 
   spacing: 1.65em
 )
+
+// Add theme for raw block and inlines.
+#set raw(theme: document.raw.theme)
+// Settings for figures of listings (raw blocks and inlines).
 #show figure.where(kind: raw): set figure(supplement: linguify("listing-supplement"))
-#show math.equation: set text(..document.fonts.math)
 
 // Algorithmic styling.
 #show: document.algorithmic-style

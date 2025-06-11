@@ -328,3 +328,45 @@
   } 
 } 
 
+#let reference-show-rule-options = (
+  "normal": (it) => {
+    let eq = math.equation
+    let el = it.element
+    {
+      // For references that are links, disable the style of the hyperlinks. 
+      // Make them look like normal text.
+      show link: set text(fill: document.text.fill, ..document.fonts.normal)
+
+      if el != none and el.func() == eq {
+        // Override equation references.
+
+        let num = if type(it.element.numbering) == str {
+          // Trim numbering pattern of prefix and suffix characters.
+          let counting-symbols = ("1", "a", "A", "i", "I", 
+                                  "一", "壹", "あ", "い", 
+                                  "ア", "イ", "א", "가", 
+                                  "ㄱ", "*", "①", "⓵")
+
+          let prefix-end = it.element.numbering.codepoints().position(c => c in counting-symbols)
+          let suffix-start = it.element.numbering.codepoints().rev().position(c => c in counting-symbols)
+
+          it.element.numbering.slice(prefix-end, if suffix-start == 0 { none } else { -suffix-start })
+        } else {
+          it.element.numbering
+        }
+
+        let supplement = if it.citation.supplement != none {it.citation.supplement} else {it.element.supplement}
+
+        link(el.location(), [#supplement~#numbering(num, ..counter(eq).at(el.location()))])
+      } else if el != none and el.func() == figure and el.kind == eq {
+        // Override figure which kind is equation.
+        it
+      } else if el != none and el.func() != none {
+        [#it.func()#it]
+      } else {
+        // Other references as usual.
+        it 
+      }
+    }
+  },
+)
