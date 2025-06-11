@@ -1,4 +1,5 @@
 #import "/lib/global.typ": *
+#import "/czech-declension/out.typ": inflected as inf
 
 // Just to make the LSP shut up.
 #set math.equation(numbering: config.document.math-equation.numbering)
@@ -68,15 +69,15 @@
   caption: [A simple table]
 )
 
-#lorem(100)
+#lorem(20)
 
-We define:
+Definujeme:
 $ phi.alt := (1 + sqrt(5)) / 2 $ <ratio>
 
-With @ratio, we get:
+Pomocí @ratio[#inf.rovnice.sg.gen], dostaneme:
 $ F_n = floor(1 / sqrt(5) phi.alt^n) $
 
-#lorem(100)
+#lorem(30)
 
 $ E &= sqrt(m_0^2 + p^2) \
     &approx 125 "GeV" $ 
@@ -89,12 +90,8 @@ $
 
 == Subheading Level 2
 
-#lorem(50)
-
-== Subheading Level 2
-
-The dot product of two vectors $arrow(a)$ and $arrow(b)$ can
-be calculated as shown in @dot-product.
+Skalární součin dvou vektrorů $arrow(a)$ a $arrow(b)$ 
+je znázorněn @dot-product[#inf.rovnice.sg.ins].
 
 $
   angle.l a, b angle.r &= arrow(a) dot arrow(b) \
@@ -102,8 +99,8 @@ $
                        &= sum_(i=1)^n a_i b_i. #<sum>
 $ <dot-product>
 
-The sum notation in @sum is a useful way to express the dot
-product of two vectors.
+Notace sumy v @sum[#inf.rovnice.sg.loc] je užitečný způsob zápisu 
+skalárního součinu dvou vektorů.
 
-#lorem(100)
+#lorem(20)
 

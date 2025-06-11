@@ -17,7 +17,7 @@
 
 == Heading Level 3
 
-#lorem(30) @editors[p. 358] 
+#lorem(30) @editors
 
-#lorem(30) @wwdc-network[p. 23]
+#lorem(30) @wwdc-network
 

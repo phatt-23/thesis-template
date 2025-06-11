@@ -39,7 +39,7 @@
 )
 
 // Reference settings.
-#show ref: it => {
+#show ref.where(form: "normal"): it => {
   let eq = math.equation
   let el = it.element
 
@@ -53,17 +53,22 @@
 
       let num = if type(it.element.numbering) == str {
         // Trim numbering pattern of prefix and suffix characters.
-        let counting-symbols = ("1", "a", "A", "i", "I", "一", "壹", 
-                                "あ", "い", "ア", "イ", "א", "가", 
+        let counting-symbols = ("1", "a", "A", "i", "I", 
+                                "一", "壹", "あ", "い", 
+                                "ア", "イ", "א", "가", 
                                 "ㄱ", "*", "①", "⓵")
+
         let prefix-end = it.element.numbering.codepoints().position(c => c in counting-symbols)
         let suffix-start = it.element.numbering.codepoints().rev().position(c => c in counting-symbols)
+
         it.element.numbering.slice(prefix-end, if suffix-start == 0 { none } else { -suffix-start })
       } else {
         it.element.numbering
       }
 
-      link(el.location(), [#it.element.supplement~#numbering(num, ..counter(eq).at(el.location()))])
+      let supplement = if it.citation.supplement != none {it.citation.supplement} else {it.element.supplement}
+
+      link(el.location(), [#supplement~#numbering(num, ..counter(eq).at(el.location()))])
 
     } else if el != none and el.func() == figure and el.kind == eq {
       // Override figure which kind is equation.
@@ -255,6 +260,3 @@
 // END
 //////////////////////////////////////////////////////////////////////////
 
-#let d = (
-  "1": "sdlkjf",
-)
