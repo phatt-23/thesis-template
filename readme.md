@@ -46,7 +46,7 @@ zathura main.pdf
 
 # Czech Declension
 
-To generate czech declension as a Typst dictionary:
+To generate czech inflections as a Typst dictionary:
 ```bash
 php czech-declension/main.php
 ```
