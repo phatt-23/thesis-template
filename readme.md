@@ -52,5 +52,5 @@ php czech-declension/main.php
 ```
 You can then pipe the output to whichever Typst file you want.
 
-The PHP script itself is taken from (heureka/inflection)[https://github.com/heureka/inflection].
+The PHP script itself is taken from [heureka/inflection](https://github.com/heureka/inflection).
 
