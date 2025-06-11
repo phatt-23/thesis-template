@@ -35,6 +35,9 @@
 // Outline.
 #import "@preview/outrageous:0.4.0"
 
+// For math equations. Apply numbering to only those that are labeled.
+#import "@preview/equate:0.3.2"
+
 // My files.
 #import "/lib/utils.typ"
 #import "/config.typ"

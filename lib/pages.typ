@@ -36,7 +36,7 @@
     // stroke: red,
   )
 
-  #v(2em)
+  #v(4em)
 
   // Main title in the set langauge.
   #text(
@@ -49,7 +49,7 @@
   #v(1em)
 
   // Sub title in the other language.
-  #text(size: 1.5em)[
+  #text(size: 1.4em)[
     #sub-title
   ]
 
@@ -66,7 +66,7 @@
   ]
 
   #align(bottom)[
-    #text(size: 1.5em)[
+    #text(size: 1.4em)[
       #match((
         (thesis-type == "bachelor", linguify("bachelor-thesis")),
         (thesis-type == "master", linguify("master-thesis")),
@@ -126,6 +126,7 @@
     #f-abs-body
 
     #if f-keys != () [
+      #v(1em)
       #block[
         *#f-key-title:* #f-keys.join(", ")
       ]
@@ -138,6 +139,7 @@
     #l-abs-body
 
     #if l-keys != () [
+      #v(1em)
       #block[
         *#l-key-title:* #l-keys.join(", ")
       ]
@@ -273,7 +275,9 @@
   = #title 
 
   // Inject bibliography.
+  #set par(spacing: 1.15em)
   #load-bib(main: true)
+  #set par(spacing: config.document.paragraph.spacing)
 
   #document
 ]

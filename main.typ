@@ -26,6 +26,60 @@
 #show raw: set text(..document.fonts.raw)
 #set raw(theme: document.raw.theme)
 
+// Math equation settings.
+#show: equate.equate.with(
+  breakable: true, 
+  sub-numbering: true, 
+  // Only labeled equation and sub-equations are numbered.
+  number-mode: "label",
+  debug: false,
+)
+
+// Reference settings.
+#show ref: it => {
+  let eq = math.equation
+  let el = it.element
+
+  {
+    // For references that are links, disable the style of the hyperlinks. 
+    // Make them look like normal text.
+    show link: set text(fill: document.text.fill, ..document.fonts.normal)
+
+    if el != none and el.func() == eq {
+      // Override equation references.
+
+      let num = if type(it.element.numbering) == str {
+        // Trim numbering pattern of prefix and suffix characters.
+        let counting-symbols = ("1", "a", "A", "i", "I", "一", "壹", 
+                                "あ", "い", "ア", "イ", "א", "가", 
+                                "ㄱ", "*", "①", "⓵")
+        let prefix-end = it.element.numbering.codepoints().position(c => c in counting-symbols)
+        let suffix-start = it.element.numbering.codepoints().rev().position(c => c in counting-symbols)
+        it.element.numbering.slice(prefix-end, if suffix-start == 0 { none } else { -suffix-start })
+      } else {
+        it.element.numbering
+      }
+
+      link(el.location(), [#it.element.supplement~#numbering(num, ..counter(eq).at(el.location()))])
+
+    } else if el != none and el.func() == figure and el.kind == eq {
+      // Override figure which kind is equation.
+      it
+
+    } else if el != none and el.func() != none {
+      [#it.func()#it]
+    } else {
+      // Other references as usual.
+      it 
+    }
+  }
+}
+
+#set math.equation(
+  numbering: document.math-equation.numbering,
+  number-align: right + horizon,
+)
+
 // Disables single letter word to be at the end of the line
 // which this is typographically desired. For debugging you
 // can color the affected red with text(fill: red)[#it.text.first()~].
@@ -39,8 +93,12 @@
 
 // Make figures breakable if they are too long.
 // It allows breaking into other pages.
-#show figure: set block(breakable: true)
-#show figure.where(kind: "listing"): set figure(supplement: linguify("listing-supplement"))
+#show figure: set block(
+  breakable: true, 
+  spacing: 1.65em
+)
+#show figure.where(kind: raw): set figure(supplement: linguify("listing-supplement"))
+#show math.equation: set text(..document.fonts.math)
 
 // Algorithmic styling.
 #show: document.algorithmic-style
@@ -58,6 +116,12 @@
 
 // BEGIN: title
 //////////////////////////////////////////////////////////////////////////
+
+/ Term: description
+/ Term: description
+---
+/ Term: description
+/ Term: description
 
 // Title page is here because I don't want any
 // later rules to affect it.
@@ -161,6 +225,7 @@
 #show heading: utils.page-heading.at(document.heading.h-all)
 #show heading.where(level: 1): utils.page-heading.at(document.heading.h-1)
 
+// Link settings (makes them blue and underlined).
 #show link: set text(fill: document.link.fill, ..document.fonts.raw)
 #show link: underline.with(stroke: document.link.underline-stroke, offset: document.link.underline-offset)
 
@@ -172,7 +237,7 @@
 #include "./chapters/chapter-2.typ"
 #include "./chapters/chapter-3.typ"
 #include "./chapters/chapter-4.typ"
-
+#include "./chapters/chapter-5.typ"
 
 // Conclusion
 #show: pages.conclusion-page.with(
@@ -193,3 +258,6 @@
 // END
 //////////////////////////////////////////////////////////////////////////
 
+#let d = (
+  "1": "sdlkjf",
+)

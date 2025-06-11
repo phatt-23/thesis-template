@@ -27,6 +27,9 @@ It supports these types of theses:
     - **`chapter-2.typ`**
     - ...
     - **`chapter-n.typ`**
+- **`czech-declension/`** - PHP script for handling czech declension
+    - **`main.php`** - run this to print out Typst dictionary of $words and their inflections
+    - **`Inflection.php`** - does the actual inflection
 
 # Run
 
@@ -40,6 +43,16 @@ For example in [zathura](https://github.com/pwmt/zathura).
 ```bash
 zathura main.pdf
 ```
+
+# Czech Declension
+
+To generate czech declension as a Typst dictionary:
+```bash
+php czech-declension/main.php
+```
+You can then pipe the output to whichever Typst file you want.
+
+The PHP script itself is taken from (heureka/inflection)[https://github.com/heureka/inflection].
 
 # TODO
 

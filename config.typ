@@ -44,11 +44,11 @@
   normal: (
     // Free palatino. 
     // https://www.gust.org.pl/projects/e-foundry/tex-gyre/index_html
-    pagella: (font: "TeX Gyre Pagella"),
+    pagella: (font: "TeX Gyre Pagella", size: 11pt),
     // Normal LM, too thin and hard to read.
-    lm: (font: "Latin Modern Roman"),     
+    lm: (font: "Latin Modern Roman", size: 11pt),     
     // CMR. Classic.
-    mcr: (font: "New Computer Modern"),
+    mcr: (font: "New Computer Modern", size: 11pt),
   ),
   // Math fonts.
   math: (
@@ -75,6 +75,10 @@
     normal: fonts.normal.pagella,
     math: fonts.math.pagella,
     raw: fonts.raw.courier,
+  ),
+
+  text: (
+    fill: black,
   ),
 
   page: (
@@ -108,7 +112,8 @@
 
   link: (
     fill: rgb(0, 0, 100),
-    underline-stroke: 0.5pt,
+    // In printed documents, links shouldn't be underlined.
+    underline-stroke: 0.0pt, // 0.5pt,
     underline-offset: 1pt,
   ),
   
@@ -118,7 +123,7 @@
     // But you're free to adjust it yourself.
     leading: 0.65em,
     // Space between each paragraph.
-    spacing: 1.4em, 
+    spacing: 0.65em, // 1.4em, 
     // Justify, allow linebreaks.
     justify: true,
     linebreaks: "optimized",
@@ -153,6 +158,10 @@
       //    "ryan-light.tmTheme"
       // "/assets/raw-themes/" + best-themes.at(0)
     // }
+  ),
+  
+  math-equation: (
+    numbering: "(1.1)",
   ),
 
   // Source code listing defaults.
