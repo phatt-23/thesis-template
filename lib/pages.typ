@@ -1,8 +1,8 @@
 // Pages that are "reusable", e.g title, abstract, conclusion, bibliography, appendix...
 
 #import "global.typ": *
-#import "utils.typ": apply-non-chapter-show-rule, match, page-heading
-#import "/config.typ": assets, sizing
+#import "/lib/lib.typ": apply-non-chapter-show-rule, match, page-heading
+#import "/config.typ": document, assets
 
 #let title-page(
   // Title of the work in Czech and English.
@@ -366,12 +366,12 @@
 
   #pagebreak(weak: true)
 
-  // #show: page.with(header: utils.header-stack( appendices-title ))
-  #show: page.with(header: utils.page-header.appendix)
+  // #show: page.with(header: lib.header-stack( appendices-title ))
+  #show: page.with(header: lib.page-header.appendix)
 
   // Reset the heading counter and change the numbering.
   #counter(heading).update(0)
-  #show heading: it => (utils.page-heading.appendix)(it)
+  #show heading: it => (lib.page-heading.appendix)(it)
   #set heading(
     numbering: config.document.heading.appendix-numbering,
     supplement: appendix-supplement,

@@ -10,6 +10,9 @@
 // User controlled configuration file.
 #import "/config.typ": assets, thesis, document, math-shorthands
 
+// Content for preliminary and concluding pages.
+#import "/chapters/preliminary-and-concluding.typ" as PAC
+
 // Centralised basic configuration - metadata of the document.
 #linguify-plug.set-database(toml(assets.lang-database))
 
@@ -18,7 +21,7 @@
 
 // For debugging in zathura (pdf viewer).
 // Make the page border visible.
-#show: utils.show-page-borders.with()
+#show: lib.show-page-borders.with()
 
 // Text settings.
 #set text(lang: thesis.lang, ..document.fonts.normal)
@@ -39,7 +42,7 @@
 )
 
 // Reference settings.
-#show ref: utils.reference-show-rule-options.at(document.reference.show-rule)
+#show ref: lib.reference-show-rule-options.at(document.reference.show-rule)
 
 // Disables single letter word to be at the end of the line
 // which this is typographically desired. For debugging you
@@ -75,8 +78,10 @@
   align: horizon,
 )
 
-// Content for preliminary and concluding pages.
-#import "/chapters/preliminary-and-concluding.typ" as PAC
+// List style.
+#set list(
+  ..document.list,
+)
 
 // BEGIN: title
 //////////////////////////////////////////////////////////////////////////
@@ -145,7 +150,7 @@
 
 #set page(
   footer-descent: document.page.footer-descent,
-  footer: utils.page-footer.at(document.page.footer),
+  footer: lib.page-footer.at(document.page.footer),
 )
 
 // BEGIN: outline, intro
@@ -169,7 +174,7 @@
 
 // The rest of the page settings.
 #set page(
-  header: utils.page-header.at(document.page.header),
+  header: lib.page-header.at(document.page.header),
   header-ascent: document.page.header-ascent,
 )
 
@@ -181,8 +186,8 @@
   numbering: document.heading.numbering,
 )
 
-#show heading: utils.page-heading.at(document.heading.h-all)
-#show heading.where(level: 1): utils.page-heading.at(document.heading.h-1)
+#show heading: lib.page-heading.at(document.heading.h-all)
+#show heading.where(level: 1): lib.page-heading.at(document.heading.h-1)
 
 // Link settings (makes them blue and underlined).
 #show link: set text(fill: document.link.fill, ..document.fonts.raw)
@@ -195,8 +200,6 @@
 #include "./chapters/chapter-1.typ"
 #include "./chapters/chapter-2.typ"
 #include "./chapters/chapter-3.typ"
-#include "./chapters/chapter-4.typ"
-#include "./chapters/chapter-5.typ"
 
 // Conclusion
 #show: pages.conclusion-page.with(

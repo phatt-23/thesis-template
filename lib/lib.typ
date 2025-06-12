@@ -1,4 +1,4 @@
-#import "/config.typ": sizing, document
+#import "/config.typ": document
 
 // Returns the current heading of specified level 
 // that is the first one AFTER the call. 
@@ -111,13 +111,13 @@
         // With supplement, spread out.
         smallcaps(current-numbering(heading-1, p-numbering: "1.", p-supplement: true)),
         h(1fr),
-        heading-1.body, 
+        smallcaps(heading-1.body), 
       
         // No supplement, align to the right.
         // h(1fr),
         // smallcaps(current-numbering(heading-1, p-numbering: "1.")),
         // h(0.5em),
-        // heading-1.body, 
+        // smallcaps(heading-1.body), 
       )
     ]
   ],
@@ -196,10 +196,10 @@
   // Wrapped into block so it isn't treated as a paragraph
   // messing up the non-indent of the first line.
   #block(
-    above: sizing.heading-block.t-pad,
-    below: sizing.heading-block.b-pad,
+    above: document.heading.heading-block.t-pad,
+    below: document.heading.heading-block.b-pad,
   )[
-    #text(size: if formal-fluff {sizing.heading-1-size} else {sizing.heading-size})[
+    #text(size: if formal-fluff {document.heading.heading-1-size} else {document.heading.heading-size})[
       #if numbering [
         #current-numbering(current-heading)
         #h(0.5em)
@@ -216,15 +216,15 @@
   // Wrapped into block so it isn't treated as a paragraph
   // messing up the non-indent of the first line.
   #block(
-    above: sizing.heading-1-block.t-pad,
-    below: sizing.heading-1-block.b-pad,
+    above: document.heading.heading-1-block.t-pad,
+    below: document.heading.heading-1-block.b-pad,
   )[
-    #text(size: sizing.heading-1-suplement-size)[
+    #text(size: document.heading.heading-1-suplement-size)[
       #heading.supplement 
       #current-numbering(current-heading)
     ]
     #v(0.2em)
-    #text(size: sizing.heading-1-size)[
+    #text(size: document.heading.heading-1-size)[
       #current-heading.body
     ]
   ] 
@@ -237,13 +237,13 @@
   // Wrapped into block so it isn't treated as a paragraph
   // messing up the non-indent of the first line.
   #block(
-    above: sizing.heading-1-block.t-pad,
-    below: sizing.heading-1-block.b-pad,
+    above: document.heading.heading-1-block.t-pad,
+    below: document.heading.heading-1-block.b-pad,
   )[
     #current-heading.supplement
     #current-numbering(current-heading)
 
-    #text(size: sizing.heading-1-size)[
+    #text(size: document.heading.heading-1-size)[
       #heading.body
     ]
   ] 
@@ -348,7 +348,8 @@
 } 
 
 #let reference-show-rule-options = (
-  "normal": (it) => {
+  "default": (it) => it,
+  "math-eq-fix": (it) => {
     let eq = math.equation
     let el = it.element
     {
@@ -377,10 +378,9 @@
         let supplement = if it.citation.supplement != none {it.citation.supplement} else {it.element.supplement}
 
         link(el.location(), [#supplement~#numbering(num, ..counter(eq).at(el.location()))])
+
       } else if el != none and el.func() == figure and el.kind == eq {
         // Override figure which kind is equation.
-        it
-      } else if el != none and el.func() != none {
         it
       } else {
         // Other references as usual.

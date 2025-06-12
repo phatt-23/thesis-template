@@ -39,13 +39,13 @@
 #import "@preview/equate:0.3.2"
 
 // My files.
-#import "/lib/utils.typ"
+#import "/lib/lib.typ"
 #import "/config.typ"
 
 // Loads bibliography but doesn't duplicate it. You can reference bibliography
 // even when the bibliography isn't visible in the file. This seems like a
 // Typst issue though, but for now this works fine.
-#let load-bib(main: false) = utils.load-bib-impl(
+#let load-bib(main: false) = lib.load-bib-impl(
   bib-sources: config.assets.bib-sources,
   bib-params: (
     style: config.assets.bib-style,

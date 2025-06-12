@@ -1,20 +1,25 @@
-// Thesis
+// Basic thesis config.
 #let thesis = (
-  lang: "cs", // options: "cs", "en"
+  // Langauge the thesis is written in. 
+  // Options: "cs", "en"
+  lang: "cs", 
   authors: (
     "Phat Tran Dai",
     // "Jan Novak",
     // "Emil Macha",
   ),
-  supervisor: "Borivoj Gulas",
+  supervisor: "Bořivoj Guláš",
   publish-location: "Ostrava",
   publish-year: "2025",
+  // Recognized thesis types: "bachelor", "master", "phd"
   type: "bachelor",
+  // Was this topic assigned with a PDF?
   assigned: false,
+  // Do want to use the standard title page according to VSB-FEI guidelines?
   vsb-fei-comliant-title-page: false,
 )
 
-// Assets.
+// Paths to various assets.
 #let assets = (
   bib-sources: "/bib.yml",
   bib-style: "/assets/iso690-numeric-brackets-cs.csl",
@@ -24,31 +29,14 @@
   lang-database: "/assets/lang-database.toml",
 )
 
-// Sizing.
-#let sizing = (
-  heading-size: 1.2em,
-  heading-1-suplement-size: 1.15em,
-  heading-1-size: 1.55em,
-  heading-block: (
-    t-pad: 2.5em,
-    b-pad: 1.5em,
-  ),
-  heading-1-block: (
-    t-pad: 3.5em,
-    b-pad: 2.5em,
-  ),
-)
-
 // Fonts.
 #let fonts = (
   // Reading fonts for normal text.
   normal: (
-    // Free palatino. 
-    // https://www.gust.org.pl/projects/e-foundry/tex-gyre/index_html
+    // Free palatino (https://www.gust.org.pl/projects/e-foundry/tex-gyre/index_html).
     pagella: (font: "TeX Gyre Pagella", size: 11pt),
-    // Normal LM, too thin and hard to read.
+    // Normal Latin Modern. Too thin and hard to read.
     lm: (font: "Latin Modern Roman", size: 11pt),     
-    // CMR. Classic.
     mcr: (font: "New Computer Modern", size: 11pt),
   ),
   // Math fonts.
@@ -56,22 +44,19 @@
     lm: (font: "Latin Modern Math"),
     pagella: (font: "TeX Gyre Pagella Math"),
   ),
-  // Raw fonts for code and other placese where 
-  // a monospace font is required.
+  // Raw fonts for code and hyperlinks.
   raw: (
-    // Thin
-    cursor: (font: "TeX Gyre Cursor", size: 10pt, weight: "regular"),
     // Bookish look.
-    courier: (font: "Courier Prime", size: 9pt),
     lm: (font: "Latin Modern Mono 12", size: 11pt),
-    // This is nice.
-    sourcecode: (font: "SauceCodePro NF", size: 9pt),
-    inconsolata: (font: "Inconsolata", size: 10pt),
+    courier: (font: "Courier Prime", size: 9pt),
+    // Thin. Similar to Courier.
+    cursor: (font: "TeX Gyre Cursor", size: 10pt, weight: "regular"),
   )
 )
 
 // Document config.
 #let document = (
+  // Use `auto` if you don't have these fonts downloaded.
   fonts: (
     normal: fonts.normal.pagella,
     math: fonts.math.pagella,
@@ -85,8 +70,7 @@
   page: (
     // Standard page in Europe.
     paper: "a4",
-    // Recommended margin is 2.5cm which is about 1in
-    // so I'm gonna stick with inches.
+    // Recommended margin for all sides is 2.5cm which is about 1in.
     margin: (
       left: 1.2in, 
       right: 1.2in,
@@ -111,13 +95,14 @@
     footer-descent: 30%,
   ),
 
+  // The looks of hyperlinks.
   link: (
     fill: rgb(0, 0, 100),
     // In printed documents, links shouldn't be underlined.
     underline-stroke: 0.0pt, // 0.5pt,
     underline-offset: 1pt,
   ),
-  
+
   paragraph: (
     // Space between each line. 
     // Should be up to the font's adjustments. 
@@ -141,35 +126,73 @@
     // Heading options:
     //    normal,
     //    chaptered 
+    //    numbered
+    //    numbered-br
+    //    not-numbered
+    //    not-numbered-br
+    //    chaptered
+    //    chaptered-br
+    //    appendix
+    // Applied to headings of all levels.
     h-all: "numbered",
+    // Applied to heading of level 1.
     h-1: "chaptered-br",
+    // When the header option is ...-br
+    // then the heading will be pushed down by this size
+    // leaving empty space before the heading.
     v-space-after-br: 5em,
+    // Varioues sizings, margins and stuff....
+    heading-size: 1.2em,
+    heading-1-suplement-size: 1.15em,
+    heading-1-size: 1.55em,
+    heading-block: (
+      t-pad: 2.5em,
+      b-pad: 1.5em,
+    ),
+    heading-1-block: (
+      t-pad: 3.5em,
+      b-pad: 2.5em,
+    ),
+  ),
+
+  list: (
+    // Markers for different levels.
+    marker: (
+      [--], 
+    ),
   ),
 
   // Raw blocks and inlines
   raw: (
     // Theme in TextMate format.
     theme: "/assets/my-raw-theme.tmTheme",
-    // {
+    // You can browse themes like this.
+    /*
+    theme: {
       // These were stolen from: https://github.com/filmgirl/TextMate-Themes
-      // import "/assets/raw-themes/themes.typ": best-themes 
-      // I like: 
-      //    "Notepad2.tmTheme", 
-      //    "Dawn.tmTheme", 
-      //    "ryan-light.tmTheme"
-      // "/assets/raw-themes/" + best-themes.at(0)
-    // }
+      // I like: Notepad2, Dawn, ryan-light
+      import "/assets/raw-themes/themes.typ": best-themes 
+      "/assets/raw-themes/" + best-themes.at(0)
+    }
+    */
   ),
-  
+  // Equation block config.
   math-equation: (
     numbering: "(1.1)",
   ),
-
+  
   reference: (
-    show-rule: "normal", 
+    // Options: 
+    //   default 
+    //      - no modification
+    //   math-eq-fix 
+    //      - fixes some issues of references to math equation
+    //        because I'm using @preview/equate:0.3.2
+    //        
+    show-rule: "math-eq-fix", 
   ),
 
-  // Source code listing defaults.
+  // Source code listing defaults. Using @preview/codelst:2.0.2.
   sourcecode-defaults: (
     frame: block.with(
       fill: luma(255),
@@ -185,7 +208,7 @@
     numbers-align: top+right,
   ),
 
-  // Pseudocode settings.
+  // The looks of algorithms written using @preview/lovelace:0.3.0.
   lovelace-defaults: (
     // Indentation size and stroke.
     indentation: 1.4em,
@@ -198,7 +221,9 @@
     // Line numbering format.
     line-numbering: "1",
   ),
-  algorithmic-style: it => {
+  
+  // The looks of algorithms written using @preview/algorithmic:1.0.0.
+  algorithmic-style: (it) => {
     show figure.where(kind: "algorithm"): it => {
       set align(left)
       table(
@@ -215,6 +240,7 @@
   }
 )
 
+// Shorthands you can define and use in math blocks.
 #let math-shorthands = (
   ($+-$, $plus.minus$),
   ($|-$, math.tack),

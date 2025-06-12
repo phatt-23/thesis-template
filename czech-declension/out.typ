@@ -1,5 +1,5 @@
 #let inflected = (
-  "rovnice": (
+  "equ": (
     sg: (
       nom: "rovnice",
       gen: "rovnice",
@@ -19,7 +19,7 @@
       ins: "rovnicemi",
     ),
   ),
-  "kapitola": (
+  "chp": (
     sg: (
       nom: "kapitola",
       gen: "kapitoly",
@@ -39,7 +39,7 @@
       ins: "kapitolami",
     ),
   ),
-  "obrázek": (
+  "fig": (
     sg: (
       nom: "obrázek",
       gen: "obrázku",
@@ -59,7 +59,7 @@
       ins: "obrázky",
     ),
   ),
-  "výpis": (
+  "lst": (
     sg: (
       nom: "výpis",
       gen: "výpise",
@@ -79,7 +79,7 @@
       ins: "výpisy",
     ),
   ),
-  "algoritmus": (
+  "alg": (
     sg: (
       nom: "algoritmus",
       gen: "algoritmu",
@@ -99,7 +99,7 @@
       ins: "algoritmy",
     ),
   ),
-  "tabulka": (
+  "tab": (
     sg: (
       nom: "tabulka",
       gen: "tabulky",
