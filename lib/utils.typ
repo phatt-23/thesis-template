@@ -381,7 +381,7 @@
         // Override figure which kind is equation.
         it
       } else if el != none and el.func() != none {
-        [#it.func()#it]
+        it
       } else {
         // Other references as usual.
         it 
