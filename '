@@ -67,6 +67,7 @@
 
   #align(bottom)[
     #text(size: 1.4em)[
+      #smallcaps[
       #match((
         (thesis-type == "bachelor", linguify("bachelor-thesis")),
         (thesis-type == "master", linguify("master-thesis")),
@@ -79,6 +80,7 @@
       ]
 
       #publish-location#if publish-location != none and publish-year != none [,] #publish-year
+      ]
     ]
   ]
 
@@ -120,9 +122,7 @@
 
   #pagebreak(weak: true)
 
-  #v(1fr)
-
-  #box(stroke: 0pt + black)[
+  #align(horizon)[
     #heading(outlined: false)[ #f-abs-title ]
 
     #f-abs-body
@@ -133,11 +133,9 @@
         *#f-key-title:* #f-keys.join(", ")
       ]
     ]
-  ]
 
-  #v(1fr)
+    #v(10em)
 
-  #box(stroke: 0pt + black)[
     #heading(outlined: false)[ #l-abs-title ]
 
     #l-abs-body
@@ -149,8 +147,6 @@
       ]
     ]
   ]
-
-  #v(1fr)
 
   #document
 ]
@@ -294,23 +290,16 @@
   //  [qsort implementation], [fragement of source code]
   appendices: (),
   appendices-title: none,
-  appendix-supplement: none,
   document,
 ) = [
   #if appendices == () { return }
 
-  #pagebreak(weak: true)
-
-  // #show: page.with(header: utils.header-stack( appendices-title ))
-  #show: page.with(header: utils.page-header.appendix)
+  #show: page.with(header: utils.header-stack( appendices-title ))
 
   // Reset the heading counter and change the numbering.
   #counter(heading).update(0)
   #show heading: it => (utils.page-heading.appendix)(it)
-  #set heading(
-    numbering: config.document.heading.appendix-numbering,
-    supplement: appendix-supplement,
-  )
+  #set heading(numbering: config.document.heading.appendix-numbering)
 
   // Set the header. 
 
@@ -342,7 +331,6 @@
       ]
 
       #body
-      #v(4em)
     ]
   ]
 

@@ -12,25 +12,24 @@
 #let title = (
   cs: (
     main: [
-      Komponenta výukového serveru TI -- \ 
+      Komponenta výukového serveru TI \ // -- \ 
       NP-úplné problémy 2
     ],
     sub: [
-      Komponenta výukového serveru TI -- \ 
+      Komponenta výukového serveru TI \ //-- \ 
       NP-úplné problémy 2
     ],
   ),
   en: (
     main: [
       Component of Learning Server for \
-      Theoretical~Computer~Science -- \
+      Theoretical~Computer~Science \ // -- \
       NP-complete~problems~2
     ],
     sub: [
       Component of Learning Server for \
-      Theoretical~Computer~Science -- \
+      Theoretical~Computer~Science \ // -- \
       NP-complete~problems~2
-
     ],
   )
 )

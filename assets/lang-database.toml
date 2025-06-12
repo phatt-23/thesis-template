@@ -21,6 +21,7 @@ list-of-tables = "List of Tables"
 list-of-algorithms = "List of Algorithms"
 list-of-listings = "List of Listings"
 listing-supplement = "Listing"
+appendix-supplement = "Appendix"
 
 [lang.cs] 
 title = "Komponenta výukového serveru TI - NP-úplné problémy 2"
@@ -45,3 +46,4 @@ list-of-tables = "Seznam tabulek"
 list-of-algorithms = "Seznam algoritmů"
 list-of-listings = "Seznam výpisů"
 listing-supplement = "Výpis"
+appendix-supplement = "Příloha"

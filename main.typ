@@ -24,6 +24,7 @@
 #set text(lang: thesis.lang, ..document.fonts.normal)
 #show math.equation: set text(..document.fonts.math)
 #show raw: set text(..document.fonts.raw)
+#show smallcaps: set text(number-type: "old-style")
 
 // Math equation settings.
 // Add spacing to not cramp it with paragraphs.
@@ -209,6 +210,7 @@
 // Attachments, source code, diagrams...
 #show: pages.appendices-page.with(
   appendices-title: linguify("appendices"),
+  appendix-supplement: linguify("appendix-supplement"),
   appendices: PAC.appendices,
 )
 

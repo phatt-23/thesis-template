@@ -87,8 +87,8 @@
     // Recommended margin is 2.5cm which is about 1in
     // so I'm gonna stick with inches.
     margin: (
-      left: 1in, 
-      right: 1in,
+      left: 1.2in, 
+      right: 1.2in,
       top: 1.2in,
       bottom: 1.1in,
     ),

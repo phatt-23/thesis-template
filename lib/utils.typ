@@ -39,10 +39,11 @@
   )
 }
 
-#let current-numbering(p-heading) = {
+#let current-numbering(p-heading, p-numbering: none, p-supplement: false) = {
   return [
+    #if p-supplement {p-heading.supplement}
     #numbering(
-      p-heading.numbering, 
+      if p-numbering != none {p-numbering} else {p-heading.numbering}, 
       ..counter(heading).at(p-heading.location())
     )
   ]
@@ -91,17 +92,11 @@
 )
 
 
-#let header-stack(content, numbering: none) = stack(
+#let header-stack(..content) = stack(
   spacing: 0.8em,
   stack(
     dir: ltr,
-    if numbering != none [
-      #smallcaps(numbering)
-    ],
-    h(1fr),
-    align(right)[
-      #smallcaps(content)
-    ],
+    ..content
   ),
   hline
 )
@@ -113,8 +108,16 @@
 
     #if heading-1.location().page() != here().page() [
       #header-stack(
+        // With supplement, spread out.
+        smallcaps(current-numbering(heading-1, p-numbering: "1.", p-supplement: true)),
+        h(1fr),
         heading-1.body, 
-        numbering: current-numbering(heading-1)
+      
+        // No supplement, align to the right.
+        // h(1fr),
+        // smallcaps(current-numbering(heading-1, p-numbering: "1.")),
+        // h(0.5em),
+        // heading-1.body, 
       )
     ]
   ],
@@ -123,10 +126,22 @@
 
     #if heading-1.location().page() != here().page() [
       #header-stack(
-        heading-1.body
+        h(1fr),
+        smallcaps(heading-1.body)
       )
     ] 
   ],
+  "appendix": context [
+    #let heading-1 = current-heading(level: 1)
+
+    #if heading-1.location().page() != here().page() [
+      #header-stack(
+        smallcaps(current-numbering(heading-1, p-numbering: "A.", p-supplement: true)),
+        h(1fr),
+        smallcaps(heading-1.body), 
+      )
+    ]
+  ], 
 )
 
 #let titled-footer-content(
@@ -208,7 +223,7 @@
       #heading.supplement 
       #current-numbering(current-heading)
     ]
-
+    #v(0.2em)
     #text(size: sizing.heading-1-size)[
       #current-heading.body
     ]
@@ -222,12 +237,15 @@
   // Wrapped into block so it isn't treated as a paragraph
   // messing up the non-indent of the first line.
   #block(
-    above: sizing.heading-block.t-pad,
-    below: sizing.heading-block.b-pad,
+    above: sizing.heading-1-block.t-pad,
+    below: sizing.heading-1-block.b-pad,
   )[
+    #current-heading.supplement
     #current-numbering(current-heading)
-    #h(0.5em)
-    #heading.body
+
+    #text(size: sizing.heading-1-size)[
+      #heading.body
+    ]
   ] 
 ]
 
@@ -266,6 +284,7 @@
   ],
   "appendix": heading => [
     // #pagebreak(weak: true)
+    #v(document.heading.v-space-after-br)
     #page-heading-appendix-impl(heading)
   ]
 )
