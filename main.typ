@@ -93,6 +93,7 @@
   thesis-type: thesis.type,
   publish-location: thesis.publish-location,
   publish-year: thesis.publish-year,
+  vsb-fei-compliant: thesis.vsb-fei-comliant-title-page,
 )
 
 // END
@@ -104,7 +105,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 // Assignment PDF.
-#show: pages.thesis-assignment.with(path: if thesis.assigned { assets.assignment } else { auto })
+#show: pages.thesis-assignment.with(path: if thesis.assigned { assets.assignment } else { none })
 
 // Abstract and keywords.
 #show: pages.abstract-and-keywords.with(

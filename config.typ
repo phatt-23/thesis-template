@@ -10,7 +10,8 @@
   publish-location: "Ostrava",
   publish-year: "2025",
   type: "bachelor",
-  assigned: true,
+  assigned: false,
+  vsb-fei-comliant-title-page: false,
 )
 
 // Assets.

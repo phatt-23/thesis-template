@@ -19,67 +19,132 @@
   publish-location: none,
   // Set this to the current year or whatever year.
   publish-year: none,
+  vsb-fei-compliant: true,
   document,
 ) = context [
   #let main-title = if text.lang == "en" { title.en } else { title.cs }
   #let sub-title = if text.lang == "en" { title.cs } else { title.en }
   #let logo-path = if text.lang == "en" { assets.logo-en } else { assets.logo-cs }
 
-  #box(
-    move(
-      dx: -2em,
-      image(
-        logo-path,
-        height: 8.5em,
+  #if vsb-fei-compliant [
+    #box(
+      move(
+        dx: -2em,
+        image(logo-path, height: 8.5em),
       ),
-    ),
-    // stroke: red,
-  )
+    )
 
-  #v(4em)
+    #v(4em)
 
-  // Main title in the set langauge.
-  #text(
-    size: 2em,
-    weight: "bold",
-  )[
-    #main-title
-  ]
+    // Main title in the set langauge.
+    #text(
+      size: 2em,
+      weight: "bold",
+    )[
+      #main-title
+    ]
 
-  #v(1em)
+    #v(1em)
 
-  // Sub title in the other language.
-  #text(size: 1.4em)[
-    #sub-title
-  ]
-
-  #v(1em)
-
-  // Authors
-  #text(size: 1.8em)[
-    #authors.map((author) => {
-      let nomen = array(author.split(" "))
-      let temp = array(nomen.slice(0, nomen.len() - 1).map(n => [#n~]))
-      temp.push(nomen.last())
-      return temp
-    }).map((x) => x.join()).join(", ", last: [ #linguify("and") ])
-  ]
-
-  #align(bottom)[
+    // Sub title in the other language.
     #text(size: 1.4em)[
-      #match((
-        (thesis-type == "bachelor", linguify("bachelor-thesis")),
-        (thesis-type == "master", linguify("master-thesis")),
-        (thesis-type == "phd", linguify("phd-thesis")),
-        (true, text(fill: red)[The thesis type is not recognized]),
-      ))
+      #sub-title
+    ]
 
-      #if supervisor != none [
-        #linguify("supervisor"): #supervisor
+    #v(1em)
+
+    // Authors
+    #text(size: 1.8em, weight: "bold")[
+      #authors.map((author) => {
+        let nomen = array(author.split(" "))
+        let temp = array(nomen.slice(0, nomen.len() - 1).map(n => [#n~]))
+        temp.push(nomen.last())
+        return temp
+      }).map((x) => x.join()).join(", ", last: [ #linguify("and") ])
+    ]
+
+    #let spacing-between = -0.25em
+
+    #align(bottom)[
+      #text(size: 1.4em, [
+        #match((
+          (thesis-type == "bachelor", linguify("bachelor-thesis")),
+          (thesis-type == "master", linguify("master-thesis")),
+          (thesis-type == "phd", linguify("phd-thesis")),
+          (true, text(fill: red)[The thesis type is not recognized]),
+        ))
+        #v(spacing-between) 
+        #if supervisor != none [
+          #linguify("supervisor"): #supervisor
+        ]
+        #v(spacing-between) 
+        #publish-location#if publish-location != none and publish-year != none [,] #publish-year
+      ])
+    ]
+  ] else [
+    #align(center)[
+      #box(image(logo-path, height: 8.5em))
+
+      #v(0.2fr)
+
+      // Main title in the set langauge.
+      #text(
+        size: 2em,
+        weight: "bold",
+        (main-title)
+      )
+      
+      // Sub title in the other language.
+      #text(
+        size: 1.4em,
+        (sub-title),
+      )
+
+      #v(0.2fr)
+    
+      // Type of thesis.
+      #text(
+        size: 1.4em,
+        smallcaps(
+          match(
+            (
+              (thesis-type == "bachelor", linguify("bachelor-thesis")),
+              (thesis-type == "master", linguify("master-thesis")),
+              (thesis-type == "phd", linguify("phd-thesis")),
+              (true, text(fill: red)[The thesis type is not recognized])
+            )
+          )
+        ), 
+      )
+
+      // Authors
+      #text(size: 1.8em, weight: "bold")[
+        #authors.map((author) => {
+          let nomen = array(author.split(" "))
+          let temp = array(nomen.slice(0, nomen.len() - 1).map(n => [#n~]))
+          temp.push(nomen.last())
+          return temp
+        }).map((x) => x.join()).join(", ", last: [ #linguify("and") ])
       ]
 
-      #publish-location#if publish-location != none and publish-year != none [,] #publish-year
+      #v(0.5fr)
     ]
+    
+    // Supervisor, location and year.
+    #align(bottom)[
+      #text(size: 1.2em)[
+          #if supervisor != none [
+            #smallcaps[
+              #linguify("supervisor"):
+              #h(0.25em)
+              #supervisor
+            ]
+          ]
+          #h(1fr)
+          #smallcaps[#publish-location#if publish-location != none and publish-year != none [,] #publish-year]
+        ]
+    ]
+
   ]
 
   #document
